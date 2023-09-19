@@ -1,0 +1,71 @@
+{
+  "name": "nx-plugin-local-npm-repo",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx-plugin/local-npm-repo/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx-plugin/local-npm-repo",
+        "main": "libs/nx-plugin/local-npm-repo/src/index.ts",
+        "tsConfig": "libs/nx-plugin/local-npm-repo/tsconfig.lib.json",
+        "packageJson": "libs/nx-plugin/local-npm-repo/package.json",
+        "assets": [
+          "libs/nx-plugin/local-npm-repo/*.md",
+          {
+            "input": "./libs/nx-plugin/local-npm-repo/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx-plugin/local-npm-repo/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx-plugin/local-npm-repo",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx-plugin/local-npm-repo",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-plugin-local-npm-repo",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/nx-plugin/local-npm-repo/**/*.ts",
+          "libs/nx-plugin/local-npm-repo/package.json",
+          "libs/nx-plugin/local-npm-repo/executors.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/nx-plugin/local-npm-repo/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

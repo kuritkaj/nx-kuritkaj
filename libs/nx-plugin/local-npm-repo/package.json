@@ -1,0 +1,20 @@
+{
+  "name": "@kuritkaj/nx-plugin-local-npm-repo",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "executors": "./executors.json",
+  "dependencies": {
+    "@nx/devkit": "16.7.4",
+    "tslib": "^2.3.0",
+    "fs-extra": "11.1.1",
+    "verdaccio": "^5.0.4",
+    "@pnpm/npm-conf": "^2.2.2",
+    "@nx/eslint-plugin": "16.7.4",
+    "js-yaml": "^4.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

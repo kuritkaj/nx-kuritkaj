@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "start-repo": {
+      "implementation": "./src/executors/start-repo/executor",
+      "schema": "./src/executors/start-repo/schema.json",
+      "description": "Starts the local npm repo"
+    }
+  }
+}
