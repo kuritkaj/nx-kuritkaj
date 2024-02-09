@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "Run executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "outputPath": {
+      "type": "string",
+      "description": "The output path of the generated files.",
+      "x-completion-type": "directory",
+      "x-priority": "important"
+    }
+  },
+  "required": ["outputPath"]
+}
