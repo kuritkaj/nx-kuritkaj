@@ -17,7 +17,7 @@ import {
 import {
   createDirectory,
   directoryExists,
-} from '@nx/workspace/src/utils/fileutils';
+} from '@nx/workspace/src/utilities/fileutils';
 import { copyFileSync, lstatSync, readdirSync } from 'fs';
 import { EOL } from 'os';
 import { join } from 'path';
@@ -171,12 +171,12 @@ function getProjectInfoPlusPlus(
 
   const outputs = getOutputsForTargetAndConfiguration(
     {
-      overrides: {},
-      target: {
         project: context.projectName,
         target: 'build',
         configuration: context.configurationName,
-      },
+    },
+    {
+
     },
     target
   );

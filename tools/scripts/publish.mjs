@@ -11,6 +11,7 @@ import { execSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 
 import devkit from "@nx/devkit";
+import path from 'path';
 
 const { readCachedProjectGraph } = devkit;
 
@@ -23,14 +24,16 @@ function invariant(condition, message) {
 
 // Executing publish script: node path/to/publish.mjs {name} --version {version} --tag {tag}
 // Default "tag" to "next" so we won't publish the "latest" tag by accident.
-const [, , name, version, tag = 'next'] = process.argv;
+const [, , name, version, tag = 'latest'] = process.argv;
+if (version) {
+  // A simple SemVer validation to validate the version
+  const validVersion = /^\d+\.\d+\.\d+(-\w+\.\d+)?/;
+  invariant(
+    version && validVersion.test(version),
+    `No version provided or version did not match Semantic Versioning, expected: #.#.#-tag.# or #.#.#, got ${version}.`
+  );
+}
 
-// A simple SemVer validation to validate the version
-const validVersion = /^\d+\.\d+\.\d+(-\w+\.\d+)?/;
-invariant(
-  version && validVersion.test(version),
-  `No version provided or version did not match Semantic Versioning, expected: #.#.#-tag.# or #.#.#, got ${version}.`
-);
 
 const graph = readCachedProjectGraph();
 const project = graph.nodes[name];
@@ -46,12 +49,25 @@ invariant(
   `Could not find "build.options.outputPath" of project "${name}". Is project.json configured  correctly?`
 );
 
+const packageJsonFile = path.join(outputPath, 'package.json');
+console.log({
+  name,
+  outputPath,
+  packageJsonFile,
+  tag,
+  version
+})
+
 process.chdir(outputPath);
 
 // Updating the version in "package.json" before publishing
 try {
   const json = JSON.parse(readFileSync(`package.json`).toString());
-  json.version = version;
+  json.version = version || json.version;
+  console.log({
+    packageJsonFile: json
+  })
+
   writeFileSync(`package.json`, JSON.stringify(json, null, 2));
 } catch (e) {
   console.error(`Error reading package.json file from library build output.`);
