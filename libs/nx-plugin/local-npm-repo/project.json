@@ -11,7 +11,6 @@
         "outputPath": "dist/libs/nx-plugin/local-npm-repo",
         "main": "libs/nx-plugin/local-npm-repo/src/index.ts",
         "tsConfig": "libs/nx-plugin/local-npm-repo/tsconfig.lib.json",
-        "packageJson": "libs/nx-plugin/local-npm-repo/package.json",
         "assets": [
           "libs/nx-plugin/local-npm-repo/*.md",
           {
@@ -38,12 +37,11 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs nx-plugin-local-npm-repo",
+      "command": "node tools/scripts/publish.mjs nx-plugin-local-npm-repo {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
