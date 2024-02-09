@@ -17,6 +17,9 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
+      "@kuritkaj/nx-plugin-bundle-deps": [
+        "libs/nx-plugin/bundle-deps/src/index.ts"
+      ],
       "@kuritkaj/nx-plugin-local-npm-repo": [
         "libs/nx-plugin/local-npm-repo/src/index.ts"
       ]
